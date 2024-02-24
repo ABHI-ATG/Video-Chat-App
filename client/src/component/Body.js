@@ -1,5 +1,5 @@
 import { UserContext } from '../App';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios'
 
@@ -7,7 +7,7 @@ function Body(){
     const {state,dispatch}=useContext(UserContext);
     const navigate=useNavigate();
 
-    const start=async()=>{
+    const create=async()=>{
         try{
             const {data}=await axios.post('http://localhost:8000/api/create',{
                 name:state.name,
@@ -22,11 +22,19 @@ function Body(){
             localStorage.setItem("name",state.name)
             localStorage.setItem("email",state.email)
             localStorage.setItem("code",data.code)
-            console.log(data);
             navigate('/chat');
         }catch(error){
             console.log(error);
         }
+    };
+
+    const [joinCode,setJoinCode]=useState(null)
+    const join=async()=>{
+        dispatch({type:"code",payload:joinCode})
+        localStorage.setItem("name",state.name)
+        localStorage.setItem("email",state.email)
+        localStorage.setItem("code",joinCode)
+        navigate('/chat');
     };
 
     return (
@@ -40,10 +48,12 @@ function Body(){
                     dispatch({type:"email",payload:e.target.value})
                 }}/>
                 <br/>
-                <button onClick={start}>Create</button>
+                <button onClick={create}>Create</button>
                 <br/>
-                <input type="text" placeholder='Enter Code'/>
-                <Link to="/chat">Join</Link>
+                <input type="text" placeholder='Enter Code' onChange={(e)=>{
+                    setJoinCode(e.target.value)
+                }}/>
+                <button onClick={join}>Join</button>
             </div>
         </>
     )

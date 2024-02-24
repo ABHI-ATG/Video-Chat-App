@@ -9,6 +9,8 @@ const intitialState={
   name:null,
   email:null,
   code:null,
+  socket:null,
+  message:[],
 }
 
 const reducer=(state,action)=>{
@@ -19,6 +21,14 @@ const reducer=(state,action)=>{
       return {...state,email:action.payload};
     case "code":
       return {...state,code:action.payload};
+    case "socket":
+      return {...state,socket:action.payload};
+    case "message":
+      return {...state,message:[...state.message,{
+        email:action.payload.email,
+        message:action.payload.message,
+        name:action.payload.name
+      }]};
     default:
       return state;
   }

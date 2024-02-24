@@ -23,12 +23,29 @@ app.use('/api',restApi);
 const http=require('http')
 const socketIO=require("socket.io")
 const server=http.createServer(app)
-const io=socketIO(server)
+const io=socketIO(server,{
+    pingTimeout:60000,
+    cors:{
+        origin:"*",
+        methods:['GET','POST']
+    }
+})
 
 io.on('connection',(socket)=>{
     console.log('A user connected')
 
+    socket.on('join',(code)=>{
+        socket.join(code);
+        console.log(`User joined room: ${code}`);
+    })
+
+    socket.on('send',(data)=>{
+        console.log(data);
+        io.to(data.code).emit('recieved',data)
+    })
+
     socket.on('disconnect',()=>{
+        socket.leaveAll()
         console.log("A user disconnected");
     })
 });
