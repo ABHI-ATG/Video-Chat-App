@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../App";
 
 
 export default function Nav(){
-    const {state,dispatch}=useContext(UserContext);
+    const {state}=useContext(UserContext);
 
   
     return (

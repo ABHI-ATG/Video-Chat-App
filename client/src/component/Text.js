@@ -24,16 +24,12 @@ export default function Text(){
         setMessage("")
     }
 
-    useEffect(()=>{
-        console.log(state.message)
-    },[state.message])
-
     return (
         <>
             {state.message.length>0?state.message.map((data)=>{
                 return (
                     <>
-                        <div className={data.email==state.email?"left":"right"}>
+                        <div className={data.email===state.email?"left":"right"}>
                             {data.message}
                         </div>
                     </>

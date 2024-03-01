@@ -19,7 +19,7 @@ const restApi=require('./routes/restapi');
 app.use('/api',restApi);
 
 
-// socketIO
+// socketIOs
 const http=require('http')
 const socketIO=require("socket.io")
 const server=http.createServer(app)
